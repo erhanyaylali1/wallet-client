@@ -17,3 +17,10 @@ code {
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 5px;
 }
+
+.table-row-light {
+    background-color: #ffffff;
+}
+.table-row-dark {
+    background-color: #fafafa;
+}

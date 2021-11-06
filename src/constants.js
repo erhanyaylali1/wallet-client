@@ -7,7 +7,7 @@ export const pieChartData = {
     datasets: [
       {
         barPercentage: 0.7,
-        label: '₺ Value of Asset',
+        label: 'Assets',
         data: [],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -19,7 +19,7 @@ export const pieChartData = {
             'rgba(128, 53, 75, 0.2)',
             'rgba(63, 201, 125, 0.2)',
         ],
-          borderColor: [
+        borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',    
             'rgba(255, 206, 86, 1)',
@@ -31,7 +31,7 @@ export const pieChartData = {
         ],
         borderWidth: 1,
         hoverOffset: 20,
-        cutout: 60
+        cutout: 0
       },
     ],
 };
@@ -49,6 +49,14 @@ export const options = {
           return delay;
         },
     },
+    scales: {
+        y: {
+            beginAtZero: true,
+        }
+    },
+    plugins: {
+      legend: true
+    },
 };
 
 export const pieOptions = {
@@ -56,7 +64,8 @@ export const pieOptions = {
     animation: {
         animateScale: true,
         animateRotate: true
-    },
+    }
+
 }
 
 export const columns = [
@@ -80,13 +89,13 @@ export const columns = [
           if(index < 4) {
               return (
                 <>
-                   ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 2 }) } 
+                   ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
                 </>
               )
           } else {
               return (
                 <>              
-                   ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 2 }) } 
+                   ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
                 </>
               )
           }
@@ -98,27 +107,48 @@ export const columns = [
       key: 'dailyDifference',
       sorter: (a, b) => a.dailyDifference.localeCompare(b.dailyDifference),
       render: (value) => {
-          if(parseFloat(value) > 0) {
+          if(parseFloat(value) >= 0) {
               return (
-                <span style={{ color: '#2cbd2c' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 2 }) }</span>
+                <span style={{ color: '#2cbd2c' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
               )
-          } else {
+          }  else {
               return (
-                <span style={{ color: 'red' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 2 }) }</span>
+                <span style={{ color: 'red' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
               )
           }
       } 
       
     },
     {
-        title: 'Assets',
+        title: 'Asset',
         dataIndex: 'asset',
         key: 'asset',
         sorter: (a, b) =>parseFloat(a.asset) - parseFloat(b.asset),
-        render: text => <>₺{parseFloat(text).toLocaleString(undefined, { maximumFractionDigits: 2 })}</>,
+        render: text => <>₺{parseFloat(text).toLocaleString(undefined, { maximumFractionDigits: 1 })}</>,
       },
 ];  
 
 export const summaryStyle = {
     fontWeight: 700,
+}
+
+export const lineChartData = {
+    labels: [],
+    datasets: [
+        {
+            label: 'Total Assets',
+            data: [],
+            fill: false,
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgba(255, 99, 132, 0.2)',
+        },
+    ],
+}
+
+export const lineChartOptions = {
+    responsive: true,
+    animation: {
+        animateScale: true,
+        animateRotate: true
+    }
 }
