@@ -24,3 +24,57 @@ code {
 .table-row-dark {
     background-color: #fafafa;
 }
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+    margin-left: auto !important;
+}
+div.ant-menu-submenu-title span.ant-menu-title-content {
+    display: none !important;
+}
+
+.ant-menu-horizontal > .ant-menu-submenu .ant-menu-submenu-title {
+    width: 25px !important;
+    text-align: center !important;
+}
+
+.ant-form-item .ant-form-item-label {
+    padding: 0 !important;
+}
+
+.nav-bar-for-shadow {
+    position: fixed;
+    height: 45px !important;
+    width: 100%;
+    z-index: 2;
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+}
+
+.asset-icon {
+    font-size: 18px !important;
+}
+
+.asset-text {
+    font-size: 17px !important;
+    text-align: center;
+}
+
+.asset-text input {
+    text-align: center;
+}
+
+.emptyAssets {
+    display: flex;
+    width: 70%;
+    height: 25vh;
+    margin: auto;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+td[colspan="2"].ant-table-cell{
+    text-align: right !important;
+}

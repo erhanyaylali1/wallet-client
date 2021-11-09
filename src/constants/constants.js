@@ -73,7 +73,6 @@ export const columns = [
         title: 'Code',
         dataIndex: 'short',
         key: 'short',
-        sorter: (a, b) => a.short.localeCompare(b.short),
         render: (code, record) => (
             <Tooltip placement="topLeft" title={record.name}>
               {record.short}
@@ -86,19 +85,11 @@ export const columns = [
       key: 'currentPrice',
       sorter: (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice),
       render: (value, record, index) => {
-          if(index < 4) {
-              return (
-                <>
-                   ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
-                </>
-              )
-          } else {
-              return (
-                <>              
-                   ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
-                </>
-              )
-          }
+            return (
+            <>
+                ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+            </>
+            )
       }
     },
     {
@@ -136,11 +127,13 @@ export const lineChartData = {
     labels: [],
     datasets: [
         {
-            label: 'Total Assets',
             data: [],
+            label: 'Total Assets',
             fill: false,
             backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            pointRadius: 4,
+            borderWidth: 2,
         },
     ],
 }
