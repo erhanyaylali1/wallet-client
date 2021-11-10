@@ -24,7 +24,9 @@ const Navbar = () => {
     return (
         <Menu mode="horizontal" className="nav-bar-for-shadow">
              <Menu.Item key="mail" icon={<WalletOutlined />}>
-                eWallet
+                 <Link to="/home">
+                    eWallet
+                </Link>
             </Menu.Item>
             <SubMenu icon={<MenuOutlined />}>
                 {isLogged ? (
@@ -32,7 +34,7 @@ const Navbar = () => {
                         {url.pathname === "/profile" ? (
                             <Menu.Item>
                                 <Link to="/home">
-                                    Home
+                                    Wallet
                                 </Link>
                             </Menu.Item>
                         ):(

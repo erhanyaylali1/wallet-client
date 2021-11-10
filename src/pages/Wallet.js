@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { Bar, Line, Pie } from 'react-chartjs-2';
@@ -9,16 +9,28 @@ import { useSelector } from 'react-redux';
 import { getUserWallet } from '../features/userSlice';
 import { Link } from 'react-router-dom';
 import { getIsLoading } from '../features/generalSlice';
+import { useNavigate } from "react-router-dom";
 
 const Wallet = () => {
 
     const [value, setValue] = React.useState('1');
     const { data, history, totalAssets } = useSelector(getUserWallet)
     const loading = useSelector(getIsLoading)
-    
-    const walletData = data.slice(0, -1);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!localStorage.getItem("token")){
+            navigate("/login")
+        }
+    }, [navigate])
+
+    const walletData = data;
 
     let percentage = 0;
+    if(history.length > 1){
+        const yesterdayAsset = history.slice(history.length - 2, history.length - 1)[0].totalAssets
+        percentage = (totalAssets - yesterdayAsset) / yesterdayAsset * 100;
+    }
     
     const allDataGraph = history.slice(0, -1).map((el) => el.totalAssets)
     allDataGraph.push(totalAssets.toFixed(2));
@@ -39,9 +51,11 @@ const Wallet = () => {
               <Table.Summary.Cell index={1} >
                   {percentage > 0 ? (
                     <span style={{ color: '#2cbd2c' }}> %{ percentage.toLocaleString(undefined, { maximumFractionDigits: 2 }) } </span>
-                  ):(
+                  ):(percentage === 0 ? (
+                    <span style={{ color: 'black' }}> %{ percentage.toLocaleString(undefined, { maximumFractionDigits: 2 }) } </span>
+                    ):(
                     <span style={{ color: 'red' }}> %{ percentage.toLocaleString(undefined, { maximumFractionDigits: 2 }) } </span>
-                  )}
+                  ))}
                     
               </Table.Summary.Cell>            
               <Table.Summary.Cell index={3} colSpan={2}>
@@ -54,8 +68,6 @@ const Wallet = () => {
     }
 
     if(!loading && totalAssets === 0) {
-        console.log(loading)
-        console.log(data)
         return (
             <div style={{ marginTop: 20 }} className="emptyAssets">
                 <p>Looks like you didn't add any asset to your wallet. </p>

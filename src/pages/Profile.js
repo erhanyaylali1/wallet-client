@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from '../axios';
 import { getIsReload, setReload } from '../features/generalSlice';
-import AssetTable from './AssetTable';
+import AssetTable from '../components/AssetTable';
 import avatar from '../assets/avatar.png';
 import { capitalize } from '../utils/capitalize';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -17,8 +17,10 @@ const Profile = () => {
     const [user, setUser] = useState(null);
     const [cryptos, setCryptos] = useState([]);
     const [funds, setFunds] = useState([]);
+    const [fiat, setFiat] = useState([]);
     const [cryptosForSelect, setCryptoesForSelect] = useState([]);
     const [fundsForSelect, setFundsForSelect] = useState([]);
+    const [fiatsForSelect, setFiatsForSelect] = useState([]);
     const navigate = useNavigate();
     const isReload = useSelector(getIsReload);
     const formRef = useRef(null);
@@ -26,17 +28,22 @@ const Profile = () => {
 
     useEffect(() => {
         if(localStorage.getItem("token")){
-            axios.get("/get-user-profile")
+            axios.get("/get-user-profile", {
+                headers: { Authorization: localStorage.getItem("token") }
+            })
             .then((res) => {
                 setUser(res.data)
             })
             .catch((err) => {
                 message.error(err?.response?.data?.message)
             })
-            axios.get("/get-asset-user-has-not")
+            axios.get("/get-asset-user-has-not", {
+                headers: { Authorization: localStorage.getItem("token") }
+            })
             .then(res => {
                 setCryptos(res.data.filter(el => el.id < 16))
-                setFunds(res.data.filter(el => el.id >= 16))
+                setFunds(res.data.filter(el => el.id >= 16 && el.id < 24))
+                setFiat(res.data.filter(el => el.id >= 24))
             })
         } else {
             navigate("/login")
@@ -47,18 +54,22 @@ const Profile = () => {
         
         let ids = [];
 
-        if(values.selectedCryptos && values.selectedFunds){
-            ids = [...values.selectedCryptos, ...values.selectedFunds];
-        } else if (values.selectedCryptos) {
-            ids = values.selectedCryptos;
-        } else if (values.selectedFunds) {
-            ids = values.selectedFunds;
-        } else {
-            message.error("Please select at least one asset!");
-            return
-        }   
+        if(values.selectedCryptos){
+            ids = [...ids, ...values.selectedCryptos]
+        }
+
+        if(values.selectedFunds){
+            ids = [...ids, ...values.selectedFunds]
+        }
+
+        if(values.selectedPyhsical){
+            ids = [...ids, ...values.selectedPyhsical]
+        }
+
         setLoading(true)
-        axios.post("add-assets-to-user", { ids })
+        axios.post("add-assets-to-user", { ids }, {
+            headers: { Authorization: localStorage.getItem("token") }
+        })
         .then(res => {
             message.success(res.data);
             formRef.current.resetFields();
@@ -77,9 +88,9 @@ const Profile = () => {
             <Col style={{ padding: "35px" }}>
                 <Row style={{ alignItems: 'center', paddingLeft: 10, fontFamily: 'inherit', fontSize: 30, fontWeight: 400, marginBottom: 40 }}>
                     <Col style={{ marginRight: 15 }}>
-                        <img src={avatar} alt="user avatar" style={{ height: 60, width: 60, borderRadius: 50 }} />
+                        <img src={avatar} alt="user avatar" style={{ height: 60, width: 60, borderRadius: 50, color: '#333' }} />
                     </Col>
-                    <Col>
+                    <Col style={{ color: '#333' }}>
                         { user.name }
                     </Col>
                 </Row>
@@ -112,20 +123,22 @@ const Profile = () => {
                         onFinish={handleAddition}
                     >
                         <Form.Item
-                            name="selectedCryptos"
-                            label="Crypto Moneys"
+                            name="selectedPyhsical"
+                            label="Physical Investments"
                         >
                             <Select 
                                 mode="multiple" 
-                                placeholder="Please select crypto moneys you want to add"
-                                value={cryptosForSelect}
-                                onChange={(values) => setCryptoesForSelect(values)}
+                                placeholder="Please select investments physical investments you want to add"
+                                value={fiatsForSelect}
+                                onChange={(values) => setFiatsForSelect(values)}
+                                showSearch={false}
                             >
-                                {cryptos.map((el, index) => (
-                                    <Option value={el.id} key={index}>{capitalize(el.name)}</Option>
+                                {fiat.map((el, index) => (
+                                    <Option value={el.id} key={index}>{el.name}</Option>
                                 ))}
                             </Select>
                         </Form.Item>
+
                         <Form.Item
                             name="selectedFunds"
                             label="Investments Funds"
@@ -135,18 +148,37 @@ const Profile = () => {
                                 placeholder="Please select investments funds you want to add"
                                 value={fundsForSelect}
                                 onChange={(values) => setFundsForSelect(values)}
+                                showSearch={false}
                             >
                                 {funds.map((el, index) => (
                                     <Option value={el.id} key={index}>{el.name}</Option>
                                 ))}
                             </Select>
                         </Form.Item>
+
+                        <Form.Item
+                            name="selectedCryptos"
+                            label="Crypto Moneys"
+                        >
+                            <Select 
+                                mode="multiple" 
+                                placeholder="Please select crypto moneys you want to add"
+                                value={cryptosForSelect}
+                                onChange={(values) => setCryptoesForSelect(values)}
+                                showSearch={false}
+                            >
+                                {cryptos.map((el, index) => (
+                                    <Option value={el.id} key={index}>{capitalize(el.name)}</Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+                        
                         <Form.Item label="" style={{ marginTop: 25, marginBottom: 10 }}>
                             <Button 
                                 type="primary" 
                                 htmlType="submit" 
                                 block 
-                                disabled={!cryptosForSelect.length && !fundsForSelect.length} 
+                                disabled={!cryptosForSelect.length && !fundsForSelect.length && !fiatsForSelect.length} 
                                 loading={loading}
                             >
                                 Add

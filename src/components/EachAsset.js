@@ -15,7 +15,7 @@ function EachAsset({ asset }) {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
-        setInputValue(asset.quantity)
+        setInputValue(asset.quantity !== "0" ? asset.quantity:"")
     }, [asset])
 
     const handleOk = async () => {
@@ -23,6 +23,8 @@ function EachAsset({ asset }) {
             axios.post("/update-user-asset", {
                     id: asset.id,
                     quantity: inputValue
+            }, {
+                headers: { Authorization: localStorage.getItem("token") }
             })
             .then(res => {
                 message.success(res.data);
@@ -36,13 +38,15 @@ function EachAsset({ asset }) {
         } else {
             message.error("Enter Valid Quantity!");
             setIsModalVisible(false);
-            setInputValue(asset.quantity)
+            setInputValue(asset.quantity !== 0 ? asset.quantity:"")
         }
     }
 
     const handleDelete = async () => {
         axios.post("/delete-user-asset", {
             id: asset.id,
+        }, {
+            headers: { Authorization: localStorage.getItem("token") }
         })
         .then(res => {
             message.success(res.data);

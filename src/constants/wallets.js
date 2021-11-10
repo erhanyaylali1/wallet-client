@@ -11,3 +11,8 @@ export const funds = [
         ["TMG", "İŞ PORTFÖY YABANCI HİSSE SENEDİ FONU"],
         ["IPJ", "İŞ PORTFÖY ELEKTRİKLİ ARAÇLAR KARMA FON"],
 ]
+
+export const physicals = [
+    "Gram Altın", "Cumhuriyet Altını",
+    "Yarım Altın", "Çeyrek Altın", "Ata Altın"
+]

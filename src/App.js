@@ -1,38 +1,50 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from './components/Login';
 import Navbar from './components/Navbar';
-import Profile from './components/Profile';
-import Register from './components/Register';
-import Wallet from './components/Wallet';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Register from './pages/Register';
+import Wallet from './pages/Wallet';
+import NotFound from './pages/NotFound';
 import { login, getIsUserLogged, setUserWallet } from './features/userSlice';
 import axios from './axios';
 import './index.css';
-import NotFound from './components/NotFound';
 import { getIsReload, setLoading } from './features/generalSlice';
+import Loading from './components/Loading';
 
 const App = () => {
 
+    const [isLoading, setIsLoading] = useState(true);
     const dispatch = useDispatch();
     const isLogged = useSelector(getIsUserLogged);
     const isReload = useSelector(getIsReload)
     
     useEffect(() => {
         if(localStorage.getItem("token")){
-            console.log("1.")
             dispatch(setLoading(true))
-            axios.get("/get-user-with-token")
+            axios.get("/get-user-with-token", {
+                headers: { Authorization: localStorage.getItem("token") }
+            })
             .then((res) => {
                 dispatch(login(res.data))
-            }).catch((err) => console.log(err))
+                setTimeout(function () {
+                    setIsLoading(false)
+                }, 2000)
+            }).catch((err) => {
+                console.log(err)
+                setIsLoading(false)            
+            })
+        } else {
+            setIsLoading(false)
         }
     }, [dispatch, isLogged])
 
     useEffect(() => {
         if(localStorage.getItem("token")){
-            console.log("2.")
-            axios.get("/get-user-table-data")
+            axios.get("/get-user-table-data", {
+                headers: { Authorization: localStorage.getItem("token") }
+            })
             .then((res) => {
                 const response = {
                     data: res.data.result,
@@ -49,8 +61,9 @@ const App = () => {
     useEffect(() => {
         let fetchData = setInterval(() => {
             if(localStorage.getItem("token")){
-                console.log("3.")
-                axios.get("/get-user-table-data")
+                axios.get("/get-user-table-data", {
+                    headers: { Authorization: localStorage.getItem("token") }
+                })
                 .then((res) => {
                     const response = {
                         data: res.data.result,
@@ -67,6 +80,10 @@ const App = () => {
             clearInterval(fetchData);
         }
     },[dispatch])
+
+    if(isLoading){
+        return <Loading />
+    }
 
     return(
         <BrowserRouter>

@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react'
-import eWallet from '../assets/eWalleT.png';
-import { Col, Row, Typography, Form, Input, Button, Select, message } from 'antd'
-import { cryptoNames, funds } from '../constants/wallets'
+import React, { useEffect, useState } from 'react'
+import { Row, Form, Input, Button, Select, message } from 'antd'
+import { cryptoNames, funds, physicals } from '../constants/wallets'
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/userSlice';
 import axios from '../axios';
 import { capitalize } from '../utils/capitalize';
+import Logo from '../components/Logo';
+import Loading from '../components/Loading';
 
-const { Title } = Typography;
 const { Option } = Select;
 
 const Register = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -36,26 +37,31 @@ const Register = () => {
             if(!values.selectedFunds){
                 values.selectedFunds = [];
             }
-            message.loading("User is Registering...")
+            if(!values.selectedPhysical){
+                values.selectedPhysical = [];
+            }
             axios.post('/register', values)
             .then((res) => {
-                message.success("Successfully Logged In.")
                 dispatch(login(res.data))
                 localStorage.setItem("token", res.data.token);
-                navigate("/home");
+                setIsLoading(true)
+                setTimeout(function () {
+                    setIsLoading(false)
+                    navigate("/profile");
+                    message.success("Successfully Logged In.")
+                }, 2500)
             }).catch(err => message.error(err.response.data.message))
         }
     };
 
+    if(isLoading){
+        return <Loading />
+    }
+
     return (
         <div style={{ padding: 25 }}>
-            <Row align="bottom" justify="center" style={{ marginTop: 10, marginBottom: 40 }}>
-                <Col>
-                    <img src={eWallet} style={{ height: 80, marginRight: 30 }} alt="eWallet Logo" />
-                </Col>
-                <Col>
-                    <Title level={2}>eWallet</Title>
-                </Col>
+            <Row align="bottom" justify="center" style={{ marginTop: 10, marginBottom: 10 }}>
+                <Logo />
             </Row>
             <Form
                 labelCol={{ span: 4 }}
@@ -73,12 +79,12 @@ const Register = () => {
                     <Input.Password type="password" />
                 </Form.Item>
                 <Form.Item
-                    name="selectedCryptos"
-                    label="Crypto Moneys"
+                    name="selectedPhysical"
+                    label="Physical Investments"
                 >
-                    <Select mode="multiple" placeholder="Please select crypto moneys you have">
-                        {cryptoNames.map((el, index) => (
-                            <Option value={el} key={index}>{capitalize(el)}</Option>
+                    <Select mode="multiple" placeholder="Please select physical investments you have" showSearch={false}>
+                        {physicals.map((el, index) => (
+                            <Option value={el} key={index}>{el}</Option>
                         ))}
                     </Select>
                 </Form.Item>
@@ -86,9 +92,19 @@ const Register = () => {
                     name="selectedFunds"
                     label="Investments Funds"
                 >
-                    <Select mode="multiple" placeholder="Please select investments funds you have">
+                    <Select mode="multiple" placeholder="Please select investments funds you have" showSearch={false}>
                         {funds.map((el, index) => (
                             <Option value={el[0]} key={index}>{el[1]}</Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    name="selectedCryptos"
+                    label="Crypto Moneys"
+                >
+                    <Select mode="multiple" placeholder="Please select crypto moneys you have" showSearch={false}>
+                        {cryptoNames.map((el, index) => (
+                            <Option value={el} key={index}>{capitalize(el)}</Option>
                         ))}
                     </Select>
                 </Form.Item>

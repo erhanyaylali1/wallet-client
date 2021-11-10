@@ -78,3 +78,12 @@ div.ant-menu-submenu-title span.ant-menu-title-content {
 td[colspan="2"].ant-table-cell{
     text-align: right !important;
 }
+
+.loadingIcon {
+    font-size: 40px !important;
+    border-radius: 12px;
+}
+
+.loginIcon {
+    font-size: 40px !important;
+}

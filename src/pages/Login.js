@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react';
-import eWallet from '../assets/eWalleT.png';
-import { Col, Row, Typography, Form, Input, Button, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Row, Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import axios from '../axios';
 import { login } from '../features/userSlice';
 import { Link, useNavigate } from "react-router-dom";
+import Loading from '../components/Loading'
+import Logo from '../components/Logo';
 
-const { Title } = Typography;
 
 const Login = () => {
 
+    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
     useEffect(() => {
         if(localStorage.getItem("token")){
-            navigate("/home")
+            navigate("/profile")
         }
     },[navigate])
 
@@ -27,23 +28,26 @@ const Login = () => {
         } else {
             axios.post("/login", values)
             .then((res) => {
-                message.success("Successfully Logged In.")
                 dispatch(login(res.data))
                 localStorage.setItem("token", res.data.token);
-                navigate("/profile");
+                setIsLoading(true)
+                setTimeout(function () {
+                    setIsLoading(false)
+                    navigate("/profile");
+                    message.success("Successfully Logged In.")
+                }, 2500)
             }).catch(err => message.error(err.response.data.message))
         }
     };
 
+    if(isLoading){
+        return <Loading />
+    }
+
     return (
         <div style={{ padding: 25 }}>
-            <Row align="bottom" justify="center" style={{ marginTop: 10, marginBottom: 40 }}>
-                <Col>
-                    <img src={eWallet} style={{ height: 80, marginRight: 30 }} alt="eWallet Logo" />
-                </Col>
-                <Col>
-                    <Title level={2}>eWallet</Title>
-                </Col>
+            <Row align="center" justify="center" style={{ marginTop: 30, marginBottom: 10 }}>
+                <Logo />
             </Row>
             <Form
                 labelCol={{ span: 4 }}
