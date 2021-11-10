@@ -3,8 +3,14 @@ import React from 'react'
 import { Messaging } from "react-cssfx-loading";
 import { Wave } from "react-animated-text";
 import { Animated } from 'react-animated-css';
+import { useSelector } from 'react-redux';
+import { getLanguage } from '../features/generalSlice';
+import text from '../constants/language';
 
 const Loading = () => {
+
+    const language = useSelector(getLanguage);
+    
     return (
         <Animated animationIn="fadeIn" animationOut="fadeOut" isVisible={true}>
             <div style={{
@@ -23,7 +29,7 @@ const Loading = () => {
                     </Row>
                     <Row style={{ position: 'absolute', bottom: '4%', fontWeight: '500' }} justify="center">
                         <Col>
-                            Professional Wallet for Investors
+                            {text[language].loadingBottomText}
                         </Col>
                     </Row>
                 </Col>

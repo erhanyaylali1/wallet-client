@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react'
-import { Table } from 'antd';
+import { Table, Tooltip } from 'antd';
 import Text from 'antd/lib/typography/Text';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-import { columns, pieChartData, options, summaryStyle, pieOptions, lineChartData, lineChartOptions } from '../constants/constants';
+import { pieChartData, options, summaryStyle, pieOptions, lineChartData, lineChartOptions } from '../constants/constants';
 import { TabPanel, TabContext } from '@mui/lab';
 import { Box, Tab, Tabs } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { getUserWallet } from '../features/userSlice';
 import { Link } from 'react-router-dom';
-import { getIsLoading } from '../features/generalSlice';
+import { getIsLoading, getLanguage } from '../features/generalSlice';
 import { useNavigate } from "react-router-dom";
+import text from '../constants/language'
 
 const Wallet = () => {
 
+    const language = useSelector(getLanguage);
     const [value, setValue] = React.useState('1');
     const { data, history, totalAssets } = useSelector(getUserWallet)
     const loading = useSelector(getIsLoading)
@@ -42,11 +44,70 @@ const Wallet = () => {
     pieChartData.labels = labels;
     pieChartData.datasets[0].data = asset
 
+    const columns = [
+        {
+            title: text[language].code,
+            dataIndex: 'short',
+            key: 'short',
+            render: (code, record) => (
+                <Tooltip placement="topLeft" title={record.name}>
+                  {record.short}
+                </Tooltip>
+            ),
+        },
+        {
+          title: text[language].price,
+          dataIndex: 'currentPrice',
+          key: 'currentPrice',
+          sorter: (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice),
+          render: (value, record, index) => {
+                if(record.id < 16) {
+                    return (
+                        <>
+                          ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                        </>
+                    )
+                } else {
+                    return (
+                        <>
+                            ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                        </>
+                    )
+                }
+          }
+        },
+        {
+          title: text[language].daily,
+          dataIndex: 'dailyDifference',
+          key: 'dailyDifference',
+          sorter: (a, b) => a.dailyDifference.localeCompare(b.dailyDifference),
+          render: (value) => {
+              if(parseFloat(value) >= 0) {
+                  return (
+                    <span style={{ color: '#2cbd2c' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
+                  )
+              }  else {
+                  return (
+                    <span style={{ color: 'red' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
+                  )
+              }
+          } 
+          
+        },
+        {
+            title: text[language].asset,
+            dataIndex: 'asset',
+            key: 'asset',
+            sorter: (a, b) =>parseFloat(a.asset) - parseFloat(b.asset),
+            render: text => <>₺{parseFloat(text).toLocaleString(undefined, { maximumFractionDigits: 1 })}</>,
+          },
+    ];  
+
     const getSummary = () => {
         return (
             <Table.Summary.Row>
               <Table.Summary.Cell index={0} style={summaryStyle}>
-                <Text style={summaryStyle}>Total</Text>
+                <Text style={summaryStyle}>{text[language].total}</Text>
               </Table.Summary.Cell>
               <Table.Summary.Cell index={1} >
                   {percentage > 0 ? (
@@ -70,8 +131,8 @@ const Wallet = () => {
     if(!loading && totalAssets === 0) {
         return (
             <div style={{ marginTop: 20 }} className="emptyAssets">
-                <p>Looks like you didn't add any asset to your wallet. </p>
-                <p>Go to <Link to="/profile">Your Asset Page</Link> and start to add your assets.</p>
+                <p>{text[language].emptyWallet1} </p>
+                <p>{text[language].emptyWallet2} <Link to="/profile">{text[language].emptyWallet3}</Link> {text[language].emptyWallet4}</p>
             </div>
         )
     }
@@ -95,9 +156,9 @@ const Wallet = () => {
                         <TabContext value={value}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} centered>
-                                    <Tab label="Pie Chart" value="1" />
-                                    <Tab label="Bar Chart" value="2" />
-                                    <Tab label="Line Chart" value="3" />
+                                    <Tab label={text[language].tab1} value="1" />
+                                    <Tab label={text[language].tab2} value="2" />
+                                    <Tab label={text[language].tab3} value="3" />
                                 </Tabs>
                             </Box>
                             <Box style={{ height: 450, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

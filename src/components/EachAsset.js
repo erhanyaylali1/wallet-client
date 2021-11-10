@@ -2,13 +2,14 @@ import { Col, Row, Button, Tooltip, Input, Modal, message } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { EditOutlined, CheckOutlined , DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import axios from '../axios';
-import { useDispatch } from 'react-redux';
-import { setReload } from '../features/generalSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setReload, getLanguage } from '../features/generalSlice';
+import text from '../constants/language'
 
 function EachAsset({ asset }) {
 
     const dispatch = useDispatch();
+    const language = useSelector(getLanguage);
     const [isEdit, setIsEdit] = useState(false);
     const [modalType, setModalType] = useState(null);
     const [inputValue, setInputValue] = useState("");
@@ -27,7 +28,7 @@ function EachAsset({ asset }) {
                 headers: { Authorization: localStorage.getItem("token") }
             })
             .then(res => {
-                message.success(res.data);
+                message.success(text[language].messageUpdateAsset);
             })
             .catch(err => console.log(err))
             .finally(() => {
@@ -36,7 +37,7 @@ function EachAsset({ asset }) {
                 dispatch(setReload())
             })
         } else {
-            message.error("Enter Valid Quantity!");
+            message.error(text[language].messageInvalidInput);
             setIsModalVisible(false);
             setInputValue(asset.quantity !== 0 ? asset.quantity:"")
         }
@@ -49,7 +50,7 @@ function EachAsset({ asset }) {
             headers: { Authorization: localStorage.getItem("token") }
         })
         .then(res => {
-            message.success(res.data);
+            message.success(text[language].messageDeleteAsset);
         })
         .catch(err => console.log(err))
         .finally(() => {
@@ -68,19 +69,33 @@ function EachAsset({ asset }) {
         if(modalType){
             if(modalType === 1) {
                 return (
-                    <Modal  title="Save Asset" visible={isModalVisible} onOk={handleOk} onCancel={() => setIsModalVisible(false)}>                
+                    <Modal 
+                        title={text[language].editModaTitle} 
+                        visible={isModalVisible} 
+                        onOk={handleOk} 
+                        onCancel={() => setIsModalVisible(false)}
+                        okText={text[language].okText}
+                        cancelText={text[language].cancelText}
+                    >                
                         <React.Fragment>
-                            <p>You are editing {asset.name}</p>
-                            <p>From: {asset.quantity} </p>
-                            <p>To: {inputValue}</p>
+                            <p>{text[language].editModalContent1} {asset.name}</p>
+                            <p>{text[language].editModalContent2} {asset.quantity} </p>
+                            <p>{text[language].editModalContent3} {inputValue}</p>
                         </React.Fragment>
                     </Modal>
                 )
             } else if (modalType === 2) {
                 return (
-                    <Modal title="Delete Asset" visible={isModalVisible} onOk={handleDelete} onCancel={() => setIsModalVisible(false)}>                
+                    <Modal 
+                        title={text[language].deleteModalTitle} 
+                        visible={isModalVisible} 
+                        onOk={handleDelete} 
+                        onCancel={() => setIsModalVisible(false)}
+                        okText={text[language].okText}
+                        cancelText={text[language].cancelText}
+                    >                
                         <React.Fragment>
-                            <p>You are deleting {asset.name}</p>
+                            <p>{text[language].deleteModalContent} {asset.name}</p>
                         </React.Fragment>
                     </Modal>
                 )
@@ -111,19 +126,19 @@ function EachAsset({ asset }) {
             <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {isEdit ? (
                     <React.Fragment>
-                        <Tooltip title="Cancel">
+                        <Tooltip title={text[language].cancelButtonToolTip}>
                             <Button type="link" icon={<CloseOutlined className="asset-icon" />} onClick={() => setIsEdit(false)}/>
                         </Tooltip>
-                        <Tooltip title="Save">
+                        <Tooltip title={text[language].saveButtonToolTip}>
                             <Button type="link" icon={<CheckOutlined className="asset-icon" />} onClick={() => handleModalOpen(1)}/>
                         </Tooltip>
                     </React.Fragment>
                 ):(
-                    <Tooltip title="Edit">
+                    <Tooltip title={text[language].editButtonToolTip}>
                         <Button type="link" icon={<EditOutlined className="asset-icon" />} onClick={() => setIsEdit(true)}/>
                     </Tooltip>
                 )}
-                 <Tooltip title="Delete">
+                 <Tooltip title={text[language].deleteButtonToolTip}>
                     <Button type="link" icon={<DeleteOutlined className="asset-icon" />} onClick={() => handleModalOpen(2)}/>
                 </Tooltip>
             </Col>

@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Form, Input, Button, message } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from '../axios';
 import { login } from '../features/userSlice';
 import { Link, useNavigate } from "react-router-dom";
 import Loading from '../components/Loading'
 import Logo from '../components/Logo';
+import { getLanguage } from '../features/generalSlice';
+import text from '../constants/language'
 
 
 const Login = () => {
 
+    const language = useSelector(getLanguage);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     let navigate = useNavigate();
@@ -22,9 +25,9 @@ const Login = () => {
 
     const onFinish = (values) => {
         if(!values.email){
-            message.error("Please Enter Your Email Address!")
+            message.error(text[language].inValidEmail)
         } else if(!values.password){
-            message.error("Please Enter Your Password!")
+            message.error(text[language].inValidPassword)
         } else {
             axios.post("/login", values)
             .then((res) => {
@@ -34,7 +37,7 @@ const Login = () => {
                 setTimeout(function () {
                     setIsLoading(false)
                     navigate("/profile");
-                    message.success("Successfully Logged In.")
+                    message.success(text[language].successfullyLogin)
                 }, 2500)
             }).catch(err => message.error(err.response.data.message))
         }
@@ -55,19 +58,19 @@ const Login = () => {
                 layout="horizontal"
                 onFinish={onFinish}
             >
-                <Form.Item name="email" label="Email" required requiredMark>
+                <Form.Item name="email" label={text[language].email} required requiredMark>
                     <Input type="email" />
                 </Form.Item>
-                <Form.Item name="password" label="Password" required requiredMark>
+                <Form.Item name="password" label={text[language].password} required requiredMark>
                     <Input.Password type="password" />
                 </Form.Item>
                 <Form.Item label="" style={{ marginTop: 30, marginBottom: 10 }}>
-                    <Button type="primary" htmlType="submit" block>Login</Button>
+                    <Button type="primary" htmlType="submit" block>{text[language].loginButton}</Button>
                 </Form.Item>
                 <Form.Item label="">
                     <Button type="link" htmlType="submit" block>
                         <Link to="/register">
-                            You don't have an account? Register quickly.
+                            {text[language].goToRegister}
                         </Link>
                     </Button>
                 </Form.Item>

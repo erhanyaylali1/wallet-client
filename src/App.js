@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import Wallet from './pages/Wallet';
 import NotFound from './pages/NotFound';
-import { login, getIsUserLogged, setUserWallet } from './features/userSlice';
+import { login, getIsUserLogged, setUserWallet, logout } from './features/userSlice';
 import axios from './axios';
 import './index.css';
-import { getIsReload, setLoading } from './features/generalSlice';
+import { getIsReload, setLanguage, setLoading } from './features/generalSlice';
 import Loading from './components/Loading';
 
 const App = () => {
 
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate(); 
     const dispatch = useDispatch();
     const isLogged = useSelector(getIsUserLogged);
     const isReload = useSelector(getIsReload)
@@ -32,8 +33,10 @@ const App = () => {
                     setIsLoading(false)
                 }, 2000)
             }).catch((err) => {
-                console.log(err)
-                setIsLoading(false)            
+                setIsLoading(false)      
+                localStorage.removeItem("token");
+                dispatch(logout())   
+                navigate("/login")
             })
         } else {
             setIsLoading(false)
@@ -81,14 +84,22 @@ const App = () => {
         }
     },[dispatch])
 
+    useEffect(() => {
+        if(localStorage.getItem("language")){
+            dispatch(setLanguage(localStorage.getItem("language")))
+        } else {
+            dispatch(setLanguage("tr"))
+        }
+    })
+
     if(isLoading){
         return <Loading />
     }
 
     return(
-        <BrowserRouter>
+        <div>
             <Navbar />
-            <div style={{ paddingTop: 45 }}>
+            <div style={{ paddingTop: 45, minHeight: '97vh' }}>
                 <Routes>
                     <Route exact path="/home" element={<Wallet />} />
                     <Route path="/profile" element={<Profile />} />
@@ -97,7 +108,7 @@ const App = () => {
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
-        </BrowserRouter>
+        </div>
     );
 }
 

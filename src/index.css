@@ -25,11 +25,17 @@ code {
     background-color: #fafafa;
 }
 
-.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+.ant-menu-horizontal li:nth-child(2) {
     margin-left: auto !important;
 }
-div.ant-menu-submenu-title span.ant-menu-title-content {
+
+.ant-menu-submenu-title .anticon + span {
     display: none !important;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 
 .ant-menu-horizontal > .ant-menu-submenu .ant-menu-submenu-title {
@@ -49,6 +55,15 @@ div.ant-menu-submenu-title span.ant-menu-title-content {
     box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
     -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
     -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+}
+
+.footer {
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75) !important;
+    background-color: white;
+    color: black;
+    min-height: 5vh;
 }
 
 .asset-icon {

@@ -2,17 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { Row, Form, Input, Button, Select, message } from 'antd'
 import { cryptoNames, funds, physicals } from '../constants/wallets'
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../features/userSlice';
 import axios from '../axios';
 import { capitalize } from '../utils/capitalize';
 import Logo from '../components/Logo';
 import Loading from '../components/Loading';
+import { getLanguage } from '../features/generalSlice';
+import text from '../constants/language'
 
 const { Option } = Select;
 
 const Register = () => {
 
+    const language = useSelector(getLanguage);
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,11 +28,11 @@ const Register = () => {
 
     const onFinish = (values) => {
         if(!values.name){
-            message.error("Please Enter Your Name and Surname!")
+            message.error(text[language].invalidName)
         } else if(!values.email){
-            message.error("Please Enter Your Email Address!")
+            message.error(text[language].inValidEmail)
         } else if(!values.password){
-            message.error("Please Enter Your Password!")
+            message.error(text[language].inValidPassword)
         } else {
             if(!values.selectedCryptos){
                 values.selectedCryptos = [];
@@ -48,7 +51,7 @@ const Register = () => {
                 setTimeout(function () {
                     setIsLoading(false)
                     navigate("/profile");
-                    message.success("Successfully Logged In.")
+                    message.success(text[language].successfullyLogin)
                 }, 2500)
             }).catch(err => message.error(err.response.data.message))
         }
@@ -69,20 +72,20 @@ const Register = () => {
                 layout="horizontal"
                 onFinish={onFinish}
             >
-                <Form.Item name="name" label="Name Surname" required requiredMark>
+                <Form.Item name="name" label={text[language].name} required requiredMark>
                     <Input type="text" />
                 </Form.Item>
-                <Form.Item name="email" label="Email" required requiredMark>
+                <Form.Item name="email" label={text[language].email} required requiredMark>
                     <Input type="email" />
                 </Form.Item>
-                <Form.Item name="password" label="Password" required requiredMark>
+                <Form.Item name="password" label={text[language].password} required requiredMark>
                     <Input.Password type="password" />
                 </Form.Item>
                 <Form.Item
                     name="selectedPhysical"
-                    label="Physical Investments"
+                    label={text[language].physicalTitle}
                 >
-                    <Select mode="multiple" placeholder="Please select physical investments you have" showSearch={false}>
+                    <Select mode="multiple" placeholder={text[language].selectPhysical} showSearch={false}>
                         {physicals.map((el, index) => (
                             <Option value={el} key={index}>{el}</Option>
                         ))}
@@ -90,9 +93,9 @@ const Register = () => {
                 </Form.Item>
                 <Form.Item
                     name="selectedFunds"
-                    label="Investments Funds"
+                    label={text[language].crpytoTitle}
                 >
-                    <Select mode="multiple" placeholder="Please select investments funds you have" showSearch={false}>
+                    <Select mode="multiple" placeholder={text[language].selectCrypto} showSearch={false}>
                         {funds.map((el, index) => (
                             <Option value={el[0]} key={index}>{el[1]}</Option>
                         ))}
@@ -100,21 +103,21 @@ const Register = () => {
                 </Form.Item>
                 <Form.Item
                     name="selectedCryptos"
-                    label="Crypto Moneys"
+                    label={text[language].fundTitle}
                 >
-                    <Select mode="multiple" placeholder="Please select crypto moneys you have" showSearch={false}>
+                    <Select mode="multiple" placeholder={text[language].selectFund} showSearch={false}>
                         {cryptoNames.map((el, index) => (
                             <Option value={el} key={index}>{capitalize(el)}</Option>
                         ))}
                     </Select>
                 </Form.Item>
                 <Form.Item label="" style={{ marginTop: 40, marginBottom: 10 }}>
-                    <Button type="primary" htmlType="submit" block>Register</Button>
+                    <Button type="primary" htmlType="submit" block>{text[language].registerButton}</Button>
                 </Form.Item>
                 <Form.Item label="">
                     <Button type="link" htmlType="submit" block>
                         <Link to="/login">
-                            Already have an account? Login quickly.
+                            {text[language].goToLogin}
                         </Link>
                     </Button>
                 </Form.Item>

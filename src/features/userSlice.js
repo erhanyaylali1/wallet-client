@@ -19,6 +19,7 @@ export const userSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.isLogged = false;
+            localStorage.removeItem("language")
             state.userWallet = {
                 data: [],
                 history: [],

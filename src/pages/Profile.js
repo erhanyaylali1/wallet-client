@@ -3,16 +3,18 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import axios from '../axios';
-import { getIsReload, setReload } from '../features/generalSlice';
+import { getIsReload, getLanguage, setReload } from '../features/generalSlice';
 import AssetTable from '../components/AssetTable';
 import avatar from '../assets/avatar.png';
 import { capitalize } from '../utils/capitalize';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import text from '../constants/language'
 
 const Option = Select.Option;
 
 const Profile = () => {
 
+    const language = useSelector(getLanguage);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
     const [cryptos, setCryptos] = useState([]);
@@ -71,7 +73,7 @@ const Profile = () => {
             headers: { Authorization: localStorage.getItem("token") }
         })
         .then(res => {
-            message.success(res.data);
+            message.success(text[language].addAssetSuccessMessage);
             formRef.current.resetFields();
             setTimeout(function (){
                 dispatch(setReload())
@@ -96,11 +98,11 @@ const Profile = () => {
                 </Row>
                 <Row>
                     <Col span={21}>
-                        <Divider orientation="left">Assets</Divider>
+                        <Divider orientation="left">{text[language].profileAssets}</Divider>
                     </Col>
                     <Col span={1} />
                     <Col style={{ display: 'flex', alignItems: 'center' }}>
-                        <Tooltip placement="left" title="Use '.' for decimal, Don't use anything for thousands. e.g. Asset: 42363.53">
+                        <Tooltip placement="left" title={text[language].infoTooltipTitle}>
                             <ExclamationCircleOutlined size={25} />
                         </Tooltip>
                     </Col>
@@ -110,11 +112,11 @@ const Profile = () => {
                         <AssetTable assets={user.Assets} />
                     ):(
                         <div>
-                            You Have No Asset.
+                            {text[language].noAsset}
                         </div>
                     )}
                 </Col>
-                <Divider orientation="right" style={{ marginTop: 20 }}>Add Assets</Divider>
+                <Divider orientation="right" style={{ marginTop: 20 }}>{text[language].addAsset}</Divider>
                 <Row>
                     <Form
                         ref={formRef}
@@ -124,11 +126,11 @@ const Profile = () => {
                     >
                         <Form.Item
                             name="selectedPyhsical"
-                            label="Physical Investments"
+                            label={text[language].physicalTitle}
                         >
                             <Select 
                                 mode="multiple" 
-                                placeholder="Please select investments physical investments you want to add"
+                                placeholder={text[language].selectPhysical}
                                 value={fiatsForSelect}
                                 onChange={(values) => setFiatsForSelect(values)}
                                 showSearch={false}
@@ -141,11 +143,11 @@ const Profile = () => {
 
                         <Form.Item
                             name="selectedFunds"
-                            label="Investments Funds"
+                            label={text[language].fundTitle}
                         >
                             <Select 
                                 mode="multiple" 
-                                placeholder="Please select investments funds you want to add"
+                                placeholder={text[language].selectFund}
                                 value={fundsForSelect}
                                 onChange={(values) => setFundsForSelect(values)}
                                 showSearch={false}
@@ -158,11 +160,11 @@ const Profile = () => {
 
                         <Form.Item
                             name="selectedCryptos"
-                            label="Crypto Moneys"
+                            label={text[language].crpytoTitle}
                         >
                             <Select 
                                 mode="multiple" 
-                                placeholder="Please select crypto moneys you want to add"
+                                placeholder={text[language].selectCrypto}
                                 value={cryptosForSelect}
                                 onChange={(values) => setCryptoesForSelect(values)}
                                 showSearch={false}
@@ -181,7 +183,7 @@ const Profile = () => {
                                 disabled={!cryptosForSelect.length && !fundsForSelect.length && !fiatsForSelect.length} 
                                 loading={loading}
                             >
-                                Add
+                                {text[language].addButtonTitle}
                             </Button>
                         </Form.Item>
                     </Form>

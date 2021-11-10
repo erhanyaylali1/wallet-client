@@ -68,65 +68,6 @@ export const pieOptions = {
 
 }
 
-export const columns = [
-    {
-        title: 'Code',
-        dataIndex: 'short',
-        key: 'short',
-        render: (code, record) => (
-            <Tooltip placement="topLeft" title={record.name}>
-              {record.short}
-            </Tooltip>
-        ),
-    },
-    {
-      title: 'Price',
-      dataIndex: 'currentPrice',
-      key: 'currentPrice',
-      sorter: (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice),
-      render: (value, record, index) => {
-            if(record.id < 16) {
-                return (
-                    <>
-                      ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
-                    </>
-                )
-            } else {
-                return (
-                    <>
-                        ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
-                    </>
-                )
-            }
-      }
-    },
-    {
-      title: 'Daily',
-      dataIndex: 'dailyDifference',
-      key: 'dailyDifference',
-      sorter: (a, b) => a.dailyDifference.localeCompare(b.dailyDifference),
-      render: (value) => {
-          if(parseFloat(value) >= 0) {
-              return (
-                <span style={{ color: '#2cbd2c' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
-              )
-          }  else {
-              return (
-                <span style={{ color: 'red' }}>%{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 1 }) }</span>
-              )
-          }
-      } 
-      
-    },
-    {
-        title: 'Asset',
-        dataIndex: 'asset',
-        key: 'asset',
-        sorter: (a, b) =>parseFloat(a.asset) - parseFloat(b.asset),
-        render: text => <>₺{parseFloat(text).toLocaleString(undefined, { maximumFractionDigits: 1 })}</>,
-      },
-];  
-
 export const summaryStyle = {
     fontWeight: 700,
 }
