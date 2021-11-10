@@ -34,7 +34,7 @@ const text = {
         password: "Şifre",
         name: "İsim ve Soyisim",
         loginButton: "Giriş Yap",
-        goToRegister: "Heniz bir hesabınız yok mu? Hızlıca kayıt olun.",
+        goToRegister: "Henüz bir hesabınız yok mu? Hızlıca kayıt olun.",
         registerButton: "Üye Ol",
         goToLogin: "Zaten bir hesabınız var mı? Hızlıca giriş yapın.",
         selectPhysical: "Lütfen sahip olduğunuz fiziksel yatırım varlıklarınızı seçiniz.",

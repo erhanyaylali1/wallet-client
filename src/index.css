@@ -71,7 +71,7 @@ code {
 }
 
 .asset-text {
-    font-size: 17px !important;
+    font-size: 16px !important;
     text-align: center;
 }
 
@@ -101,4 +101,8 @@ td[colspan="2"].ant-table-cell{
 
 .loginIcon {
     font-size: 40px !important;
+}
+
+.eachAssetRow:hover {
+    background-color: #bbe9ff !important;
 }

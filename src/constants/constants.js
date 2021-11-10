@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 
 let delayed;
 

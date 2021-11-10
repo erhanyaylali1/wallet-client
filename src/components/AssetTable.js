@@ -1,7 +1,6 @@
-import { Col } from 'antd';
+import { Col, Row } from 'antd';
 import React from 'react'
 import EachAsset from './EachAsset';
-  
 
 const AssetTable = ({ assets }) => {
 
@@ -14,7 +13,7 @@ const AssetTable = ({ assets }) => {
     
     return (
       <Col>
-          {data.map(el => <EachAsset asset={el} />)}
+        {data.map((el, index) => <EachAsset asset={el} even={index % 2 === 0 ? true:false}/>)}
       </Col>
     );
 }

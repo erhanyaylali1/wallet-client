@@ -108,13 +108,15 @@ const Profile = () => {
                     </Col>
                 </Row>
                 <Col>
-                    {user.Assets.length > 0 ? (
-                        <AssetTable assets={user.Assets} />
-                    ):(
-                        <div>
-                            {text[language].noAsset}
-                        </div>
-                    )}
+                    <Col style={{ width: '100%', alignItems: 'center', marginLeft: 'auto', marginRight: 'auto' }}>
+                        {user.Assets.length > 0 ? (
+                            <AssetTable assets={user.Assets} />
+                        ):(
+                            <div>
+                                {text[language].noAsset}
+                            </div>
+                        )}
+                    </Col>
                 </Col>
                 <Divider orientation="right" style={{ marginTop: 20 }}>{text[language].addAsset}</Divider>
                 <Row>
