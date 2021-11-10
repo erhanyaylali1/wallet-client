@@ -85,11 +85,19 @@ export const columns = [
       key: 'currentPrice',
       sorter: (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice),
       render: (value, record, index) => {
-            return (
-            <>
-                ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
-            </>
-            )
+            if(record.id < 16) {
+                return (
+                    <>
+                      ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                    </>
+                )
+            } else {
+                return (
+                    <>
+                        ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                    </>
+                )
+            }
       }
     },
     {

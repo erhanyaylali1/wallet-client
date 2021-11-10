@@ -13,6 +13,7 @@ export const funds = [
 ]
 
 export const physicals = [
-    "Gram Altın", "Cumhuriyet Altını",
-    "Yarım Altın", "Çeyrek Altın", "Ata Altın"
+    "Gram Altın", "22 Ayar Bilezik Gram", "Cumhuriyet Altını",
+    "Yarım Altın", "Çeyrek Altın", "Ata Altın",
+    "Dolar", "Euro", "Sterlin"
 ]
