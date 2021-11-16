@@ -1,4 +1,4 @@
-Socialony Social Media with React, Redux, Firebase, Express.js, Material UI, Ant Design, Grommet, Semantic UI
+E-Wallet, Professional Wallet For Inverstors
 --------------------------------
 Inside root folder run following commands  
 ### `npm install`
@@ -10,24 +10,12 @@ Features
 
 -REGISTER-LOGIN 
 
--FOLLOW/UNFOLLOW USER 
+-ADD / EDIT / DELETE ASSETS 
 
--SEND POST, LIKE A POST, SEND COMMENT TO A POST 
-
--SEND MESSAGE TO USER 
-
--GET NOTIFICATION WHEN A USER FOLLOWS YOU, LIKES YOUR POST OR SENDS A COMMENT YOU YOUR POST  
-
--UPLOAD PROFILE IMAGE 
-
--LIVE SEARCH ON SEARCH BAR 
-
--POSTS FROM PEOPLE YOU FOLLOW ON HOME PAGE 
-
--DELETE POST 
+-EVERY 10 SECONDS, VALUE OF ASSETS ARE UPDATED
 
 
-Visit Website Live: https://socialony.web.app
+Visit Website Live: http://portfolio-wallet.s3-website.eu-north-1.amazonaws.com/
 
 SCREENSHOTS
 --------------------------------
