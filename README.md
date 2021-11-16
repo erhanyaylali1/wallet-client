@@ -19,8 +19,7 @@ Visit Website Live: http://portfolio-wallet.s3-website.eu-north-1.amazonaws.com/
 
 SCREENSHOTS
 --------------------------------
-<img src="https://user-images.githubusercontent.com/32177766/142028995-41157ec5-40e9-412b-a9c6-419cd1216aef.png" width="200">
-![image](https://user-images.githubusercontent.com/32177766/142028995-41157ec5-40e9-412b-a9c6-419cd1216aef.png | width=100)
+<img src="https://user-images.githubusercontent.com/32177766/142028995-41157ec5-40e9-412b-a9c6-419cd1216aef.png" width="300">
 ![image](https://user-images.githubusercontent.com/32177766/142029108-6039e544-a2ad-4e05-8ed7-6f59f01f6422.png)
 ![image](https://user-images.githubusercontent.com/32177766/142029121-9873ae2b-adf1-4957-a0b0-be821f6f88e0.png)
 ![image](https://user-images.githubusercontent.com/32177766/142029140-71f86831-c423-4427-90c6-066b8ff6cb06.png)
