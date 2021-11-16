@@ -113,11 +113,11 @@ function EachAsset({ asset, even }) {
         <div style={{ backgroundColor: even ? '#efefef':'white', padding: '5px 20px' }} className="eachAssetRow">
             <Row>
                 <Col span={6} style={{ fontSize: 16, display: 'flex', alignItems: 'center' }}>
-                    <Tooltip title={asset.name}>
+                    <Tooltip title={asset.name} className="eachAssetToolTip">
                         { asset.short }
                     </Tooltip>
                 </Col>
-                <Col span={10} className="asset-text" style={{ display: 'flex', alignItems: 'center' }}>
+                <Col span={10} className="asset-text" style={{ display: 'flex', alignItems: 'center',  justifyContent: 'center' }}>
                     { isEdit ? (
                         <Input 
                             size="medium" 

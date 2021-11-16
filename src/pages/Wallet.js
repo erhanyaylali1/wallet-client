@@ -49,8 +49,9 @@ const Wallet = () => {
             title: text[language].code,
             dataIndex: 'short',
             key: 'short',
+            width: 10,
             render: (code, record) => (
-                <Tooltip placement="topLeft" title={record.name}>
+                <Tooltip placement="topLeft" title={record.name} className="eachAssetToolTip">
                   {record.short}
                 </Tooltip>
             ),

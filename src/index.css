@@ -106,3 +106,13 @@ td[colspan="2"].ant-table-cell{
 .eachAssetRow:hover {
     background-color: #bbe9ff !important;
 }
+
+.eachAssetToolTip {
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ant-table-tbody > tr > td, .ant-table-thead > tr > th {
+    padding: 10px !important;
+}

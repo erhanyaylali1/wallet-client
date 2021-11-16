@@ -93,9 +93,9 @@ const Register = () => {
                 </Form.Item>
                 <Form.Item
                     name="selectedFunds"
-                    label={text[language].crpytoTitle}
+                    label={text[language].fundTitle}
                 >
-                    <Select mode="multiple" placeholder={text[language].selectCrypto} showSearch={false}>
+                    <Select mode="multiple" placeholder={text[language].selectFund} showSearch={false}>
                         {funds.map((el, index) => (
                             <Option value={el[0]} key={index}>{el[1]}</Option>
                         ))}
@@ -103,9 +103,9 @@ const Register = () => {
                 </Form.Item>
                 <Form.Item
                     name="selectedCryptos"
-                    label={text[language].fundTitle}
+                    label={text[language].crpytoTitle}
                 >
-                    <Select mode="multiple" placeholder={text[language].selectFund} showSearch={false}>
+                    <Select mode="multiple" placeholder={text[language].selectCrypto} showSearch={false}>
                         {cryptoNames.map((el, index) => (
                             <Option value={el} key={index}>{capitalize(el)}</Option>
                         ))}
