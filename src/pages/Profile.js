@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router';
 import axios from '../axios';
 import { getIsReload, getLanguage, setReload } from '../features/generalSlice';
 import AssetTable from '../components/AssetTable';
-import avatar from '../assets/avatar.png';
 import { capitalize } from '../utils/capitalize';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import text from '../constants/language'
@@ -88,11 +87,8 @@ const Profile = () => {
     } else {
         return (
             <Col style={{ padding: "35px" }}>
-                <Row style={{ alignItems: 'center', paddingLeft: 10, fontFamily: 'inherit', fontSize: 30, fontWeight: 400, marginBottom: 40 }}>
-                    <Col style={{ marginRight: 15 }}>
-                        <img src={avatar} alt="user avatar" style={{ height: 60, width: 60, borderRadius: 50, color: '#333' }} />
-                    </Col>
-                    <Col style={{ color: '#333' }}>
+                <Row style={{ justifyContent:'center', fontFamily: 'inherit', fontSize: 30, fontWeight: 400, marginBottom: 0 }}>
+                   <Col style={{ color: '#333' }}>
                         { user.name }
                     </Col>
                 </Row>
