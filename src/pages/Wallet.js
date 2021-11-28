@@ -44,8 +44,6 @@ const Wallet = () => {
     pieChartData.labels = labels;
     pieChartData.datasets[0].data = asset
 
-
-    
     const columns = [
         {
             title: text[language].code,
