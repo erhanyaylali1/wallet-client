@@ -42,9 +42,9 @@ const Profile = () => {
                 headers: { Authorization: localStorage.getItem("token") }
             })
             .then(res => {
-                setCryptos(res.data.filter(el => el.id < 16))
-                setFunds(res.data.filter(el => el.id >= 16 && el.id < 24))
-                setFiat(res.data.filter(el => el.id >= 24))
+                setCryptos(res.data.filter(el => el.id < 20))
+                setFunds(res.data.filter(el => el.id >= 56 && el.id < 90))
+                setFiat(res.data.filter(el => el.id >= 93))
             })
         } else {
             navigate("/login")

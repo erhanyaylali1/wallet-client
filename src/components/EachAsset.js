@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setReload, getLanguage } from '../features/generalSlice';
 import text from '../constants/language'
 import { Animated } from "react-animated-css";
+import { capitalize } from '../utils/capitalize';
 
 function EachAsset({ asset, even }) {
 
@@ -114,7 +115,7 @@ function EachAsset({ asset, even }) {
             <Row>
                 <Col span={6} style={{ fontSize: 16, display: 'flex', alignItems: 'center' }}>
                     <Tooltip title={asset.name} className="eachAssetToolTip">
-                        { asset.short }
+                        { capitalize(asset.short) }
                     </Tooltip>
                 </Col>
                 <Col span={10} className="asset-text" style={{ display: 'flex', alignItems: 'center',  justifyContent: 'center' }}>

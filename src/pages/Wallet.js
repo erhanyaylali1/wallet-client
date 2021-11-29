@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { getIsLoading, getLanguage } from '../features/generalSlice';
 import { useNavigate } from "react-router-dom";
 import text from '../constants/language'
+import { capitalize } from '../utils/capitalize';
 
 const Wallet = () => {
 
@@ -52,7 +53,7 @@ const Wallet = () => {
             width: 10,
             render: (code, record) => (
                 <Tooltip placement="topLeft" title={record.name} className="eachAssetToolTip">
-                  {record.short}
+                  {capitalize(record.short)}
                 </Tooltip>
             ),
         },
@@ -62,16 +63,16 @@ const Wallet = () => {
           key: 'currentPrice',
           sorter: (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice),
           render: (value, record, index) => {
-                if(record.id < 16) {
+                if(record.id < 56) {
                     return (
                         <>
-                          ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                          ${ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 8 }) } 
                         </>
                     )
                 } else {
                     return (
                         <>
-                            ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 4 }) } 
+                            ₺{ parseFloat(value).toLocaleString(undefined, { maximumFractionDigits: 8 }) } 
                         </>
                     )
                 }
